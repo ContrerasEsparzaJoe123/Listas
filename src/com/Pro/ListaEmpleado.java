@@ -1,5 +1,7 @@
 package com.Pro;
 
+import javax.swing.*;
+
 public class ListaEmpleado {
     private NodoEmpleado head;
     private int size;
@@ -27,11 +29,11 @@ public class ListaEmpleado {
         return size;
     }
 
-    public boolean buscar(Empleado empleado) {
+    public boolean buscar(int dato) {
         boolean respuesta=false;
-        NodoEmpleado temporal = head;
+        NodoEmpleado temporal = this.head;
 
-        while(temporal!=null && temporal.getEmpleado()!=empleado) {
+        while(temporal!=null && temporal.getEmpleado().getId()!=dato) {
             temporal = temporal.getSiguiente();
         }
         if(temporal!=null) {
@@ -39,6 +41,7 @@ public class ListaEmpleado {
         }
         return respuesta;
     }
+
 
     public boolean listaVacia(){
         return head == null;
@@ -48,10 +51,14 @@ public class ListaEmpleado {
         System.out.println("Head-> ");
         while (actual!=null){
             System.out.println(actual);
+            //JOptionPane.showMessageDialog(null,  actual);
             System.out.println("-> ");
             actual=actual.getSiguiente();
 
         }
+
         System.out.println("null");
     }
+
+
 }

@@ -15,9 +15,10 @@ import java.util.stream.Collectors;
 public class Main extends JFrame implements ActionListener {
 
     private JMenuBar jmb_emp;
-    private JMenu jm_listaS, jm_listaD;
-    private JMenuItem jmi_insertar, jmi_borrar, jmi_salir,jmi_buscar, jmi_imprimir, jmi_ins, jmi_Bor, jmi_bus, jmi_insF, jmi_borF, jmi_imp;
+    private JMenu jm_listaS, jm_listaD, jm_listaC;
+    private JMenuItem jmi_insertar, jmi_borrar, jmi_salir,jmi_buscar, jmi_imprimir, jmi_ins, jmi_Bor, jmi_bus, jmi_insF, jmi_borF, jmi_imp, jmi_borrarP, jmi_Inser, jmi_busca, jmi_impr, jmi_Eli;
     private ListaEmpleado lista =new ListaEmpleado();
+    private ListaC lista2 = new ListaC();
     private EmployeeDoublyLinkedList list =new EmployeeDoublyLinkedList();
     public Main() {
         setTitle("Listas");
@@ -29,8 +30,20 @@ public class Main extends JFrame implements ActionListener {
         jmb_emp = new JMenuBar();
         jm_listaS = new JMenu("Lista Simple");
         jm_listaD = new JMenu("Lista Doble");
+        jm_listaC = new JMenu("Lista Circular");
         jmi_salir = new JMenuItem("Salir");
         jmi_salir.addActionListener(this);
+
+        jmi_impr = new JMenuItem("Imprimir");
+        jmi_impr.addActionListener(this);
+        jmi_Eli = new JMenuItem("Elimminar Lista");
+        jmi_Eli.addActionListener(this);
+        jmi_busca = new JMenuItem("Buscar");
+        jmi_busca.addActionListener(this);
+        jmi_borrarP = new JMenuItem("Borrar por Posicion");
+        jmi_borrarP.addActionListener(this);
+        jmi_Inser = new JMenuItem("Insertar");
+        jmi_Inser.addActionListener(this);
 
         jmi_insertar = new JMenuItem("Insertar");
         jmi_insertar.addActionListener(this);
@@ -62,6 +75,14 @@ public class Main extends JFrame implements ActionListener {
         jm_listaS.add(jmi_buscar);
         jm_listaS.add(jmi_imprimir);
 
+
+        jm_listaC.add(jmi_Inser);
+        jm_listaC.add(jmi_borrarP);
+        jm_listaC.add(jmi_busca);
+        jm_listaC.add(jmi_impr);
+        jm_listaC.add(jmi_Eli);
+
+
         jm_listaD.add(jmi_ins);
         jm_listaD.add(jmi_Bor);
         jm_listaD.add(jmi_bus);
@@ -70,6 +91,7 @@ public class Main extends JFrame implements ActionListener {
         jm_listaD.add(jmi_imp);
         jmb_emp.add(jm_listaS);
         jmb_emp.add(jm_listaD);
+        jmb_emp.add(jm_listaC);
         jmb_emp.add(jmi_salir);
         setJMenuBar(jmb_emp);
 
@@ -77,23 +99,8 @@ public class Main extends JFrame implements ActionListener {
 
     }
 
-    public static <T> List<T> convertALtoLL(
-            List<T> aL)
-    {
 
-        // Return the converted LinkedList
-        return aL
 
-                // Convert the ArrayList into Stream
-                .stream()
-
-                // Collect the LinkedList
-                .collect(Collectors
-
-                        // Convert the Stream into LinkedList
-                        // Collection type
-                        .toCollection(LinkedList::new));
-    }
 
 
 
@@ -101,51 +108,54 @@ public class Main extends JFrame implements ActionListener {
     public static void main(String[] args) {
         Main ventanaPrincipal = new Main();
 
-        MongoClient mongoClient = MongoClients.create("mongodb+srv://joec:that1guy2@cluster0-tlgse.mongodb.net/test?retryWrites=true&w=majority");
-        MongoDatabase database = mongoClient.getDatabase("parcial2");
-        MongoCollection<Document> collection = database
-                .getCollection("posts");
-
-        List<Document> posts = (List<Document>) collection.find().into(
-                new ArrayList<Document>());
-
-        for(Document document : posts){
-            Document lL = convertALtoLL(document);
-            System.out.println(document);
-
-
-            // Print the LinkedList
-            System.out.println("LinkedList: " + lL);
-
-            /*
-            if (convertALtoLL() != null) {
-                convertALtoLL().remove(posts);
-                System.out.println("LinkedList: " + lL);
-            }*/
-        }
-
 
     }
 
-    private static <E> List<E> convertALtoLL() {
-        return null;
-    }
-
-    private static Document convertALtoLL(Document document) {
-
-        return document;
-    }
 
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        if(e.getSource()== jmi_Inser) {
+            String nombre = JOptionPane.showInputDialog("Nombre");
+            String apellido = JOptionPane.showInputDialog("Apellido");
+            Integer id = Integer.valueOf(JOptionPane.showInputDialog("ID"));
+            Empleado emp = new Empleado(nombre, apellido, id);
+
+            lista2.agregarAlInicio(emp);
+            System.out.println("Empleado Agregado");
+
+        }
 
 
+        if(e.getSource()== jmi_impr) {
+            lista2.listar();
+
+        }
+
+        if(e.getSource()== jmi_Eli) {
+            lista2.eliminar();
+            System.out.println("Lista Borrada");
+        }
+
+        if(e.getSource()== jmi_borrarP) {
+            String nombre = JOptionPane.showInputDialog("Nombre");
+            String apellido = JOptionPane.showInputDialog("Apellido");
+            Integer id = Integer.valueOf(JOptionPane.showInputDialog("ID"));
+            Empleado emp = new Empleado(nombre, apellido, id);
+            lista2.borrarNodo(emp);
+        }
+
+        if(e.getSource()== jmi_bus) {
+            Integer id = Integer.valueOf(JOptionPane.showInputDialog("ID"));
+            if(list.buscarN(id)) {
+                System.out.println("encontrado");
+            }else {
+                System.out.println("no se encontro");
+            }
+        }
 
         if(e.getSource()== jmi_insertar) {
-
-
             String nombre = JOptionPane.showInputDialog("Nombre");
             String apellido = JOptionPane.showInputDialog("Apellido");
             Integer id = Integer.valueOf(JOptionPane.showInputDialog("ID"));
@@ -170,21 +180,16 @@ public class Main extends JFrame implements ActionListener {
 
         if(e.getSource()== jmi_buscar) {
 
-            /*
-            for(Empleado item : e) {
+            Integer id = Integer.valueOf(JOptionPane.showInputDialog("ID"));
 
-                if(item.getNombre().equals(Empleado ) {
-                    //perform calculations or display to screen here
-                }
 
-            }
 
-            if(lista.buscar(emp)) {
+            if(lista.buscar(id)) {
                 System.out.println("encontrado");
             }else {
                 System.out.println("no se encontro");
             }
-*/
+
         }
         if(e.getSource()== jmi_ins) {
 

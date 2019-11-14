@@ -74,6 +74,18 @@ public class EmployeeDoublyLinkedList {
         removedNode.setPrevious(null);
         return removedNode;
     }
+    public boolean buscarN(int dato) {
+        boolean respuesta=false;
+        EmployeeNode temporal = this.head;
+
+        while(temporal!=null && temporal.getEmployee().getId()!=dato) {
+            temporal = temporal.getNext();
+        }
+        if(temporal!=null) {
+            respuesta=true;
+        }
+        return respuesta;
+    }
 
     public int getSize() {
         return size;
