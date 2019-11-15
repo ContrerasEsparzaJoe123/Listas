@@ -41,7 +41,11 @@ public class ListaEmpleado {
         }
         return respuesta;
     }
+    public void eliminarL(){
+        head = null;
 
+        size = 0;
+    }
 
     public boolean listaVacia(){
         return head == null;

@@ -31,33 +31,9 @@ public class ListaC {
         }
         size++;
     }
-    public boolean buscar(Empleado empleado){
-        // Crea una copia de la lista.
-        NodoEmpleado aux = inicio;
-        // Bandera para indicar si el valor existe.
-        boolean encontrado = false;
-        // Recorre la lista hasta encontrar el elemento o hasta
-        // llegar al primer nodo nuevamente.
-        do{
-            // Consulta si el valor del nodo es igual al de referencia.
-            if (empleado == aux.getEmpleado()){
-                // Canbia el valor de la bandera.
-                encontrado = true;
-            }
-            else{
-                // Avansa al siguiente. nodo.
-                aux = aux.getSiguiente();
-            }
-        }while(aux != inicio && encontrado != true);
-        // Retorna el resultado de la bandera.
-        return encontrado;
-    }
-
-
-    public boolean buscar(int dato) {
+    public boolean buscarC(int dato) {
         boolean respuesta=false;
         NodoEmpleado temporal = this.inicio;
-
         while(temporal!=null && temporal.getEmpleado().getId()!=dato) {
             temporal = temporal.getSiguiente();
         }
@@ -67,37 +43,55 @@ public class ListaC {
         return respuesta;
     }
 
-    /*public void removerPorReferencia(Empleado empleado){
-        if (buscar(empleado)) {
-            if (inicio.getEmpleado() == empleado) {
+
+    public boolean buscar(int referencia){
+        NodoEmpleado aux = inicio;
+        boolean encontrado = false;
+        do{
+            if (referencia == aux.getEmpleado().getId()){
+                encontrado = true;
+            }
+            else{
+                aux = aux.getSiguiente();
+            }
+        }while(aux != inicio && encontrado != true);
+        return encontrado;
+    }
+
+    public void removerPorReferencia(int referencia){
+        // Consulta si el valor de referencia existe en la lista.
+        if (buscar(referencia)) {
+            // Consulta si el nodo a eliminar es el pirmero
+            if (inicio.getEmpleado().getId() == referencia) {
+                // El primer nodo apunta al siguiente.
                 inicio = inicio.getSiguiente();
+                // Apuntamos con el ultimo nodo de la lista al inicio.
                 ultimo.setSiguiente(inicio);
             } else{
+                // Crea ua copia de la lista.
                 NodoEmpleado aux = inicio;
-                while(aux.getSiguiente().getEmpleado() != empleado){
+                // Recorre la lista hasta llegar al nodo anterior
+                // al de referencia.
+                while(aux.getSiguiente().getEmpleado().getId() != referencia){
                     aux = aux.getSiguiente();
                 }
                 if (aux.getSiguiente() == ultimo) {
                     aux.setSiguiente(inicio);
                     ultimo = aux;
                 } else {
+                    // Guarda el nodo siguiente del nodo a eliminar.
                     NodoEmpleado siguiente = aux.getSiguiente();
+                    // Enlaza el nodo anterior al de eliminar con el
+                    // sguiente despues de el.
                     aux.setSiguiente(siguiente.getSiguiente());
+                    // Actualizamos el puntero del ultimo nodo
                 }
             }
+            // Disminuye el contador de tama�o de la lista.
             size--;
         }
-    }*/
-
-    public NodoEmpleado borrarNodo(){
-
-        NodoEmpleado empleadoBorrado= inicio;
-        inicio=inicio.getSiguiente();
-        size--;
-        empleadoBorrado.setSiguiente(null);
-        return empleadoBorrado;
-
     }
+
     public void eliminar(){
         inicio = null;
         ultimo = null;

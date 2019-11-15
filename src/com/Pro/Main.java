@@ -16,7 +16,7 @@ public class Main extends JFrame implements ActionListener {
 
     private JMenuBar jmb_emp;
     private JMenu jm_listaS, jm_listaD, jm_listaC;
-    private JMenuItem jmi_insertar, jmi_borrar, jmi_salir,jmi_buscar, jmi_imprimir, jmi_ins, jmi_Bor, jmi_bus, jmi_insF, jmi_borF, jmi_imp, jmi_borrarP, jmi_Inser, jmi_busca, jmi_impr, jmi_Eli;
+    private JMenuItem jmi_insertar, jmi_borrar, jmi_salir,jmi_buscar, jmi_imprimir,jmi_Blis,jmi_bL, jmi_ins, jmi_Bor, jmi_bus, jmi_insF, jmi_borF, jmi_imp, jmi_borrarP, jmi_Inser, jmi_busca, jmi_impr, jmi_Eli;
     private ListaEmpleado lista =new ListaEmpleado();
     private ListaC lista2 = new ListaC();
     private EmployeeDoublyLinkedList list =new EmployeeDoublyLinkedList();
@@ -40,7 +40,7 @@ public class Main extends JFrame implements ActionListener {
         jmi_Eli.addActionListener(this);
         jmi_busca = new JMenuItem("Buscar");
         jmi_busca.addActionListener(this);
-        jmi_borrarP = new JMenuItem("Borrar por Posicion");
+        jmi_borrarP = new JMenuItem("Borrar por Id");
         jmi_borrarP.addActionListener(this);
         jmi_Inser = new JMenuItem("Insertar");
         jmi_Inser.addActionListener(this);
@@ -53,6 +53,8 @@ public class Main extends JFrame implements ActionListener {
         jmi_buscar.addActionListener(this);
         jmi_imprimir = new JMenuItem("Imprimir");
         jmi_imprimir.addActionListener(this);
+        jmi_Blis = new JMenuItem("Eliminar Lista");
+        jmi_Blis.addActionListener(this);
 
 
         jmi_ins = new JMenuItem("Insertar al Principio");
@@ -67,12 +69,15 @@ public class Main extends JFrame implements ActionListener {
         jmi_imp.addActionListener(this);
         jmi_bus = new JMenuItem("Buscar");
         jmi_bus.addActionListener(this);
+        jmi_bL = new JMenuItem("Borrar Lista");
+        jmi_bL.addActionListener(this);
 
 
 
         jm_listaS.add(jmi_insertar);
         jm_listaS.add(jmi_borrar);
         jm_listaS.add(jmi_buscar);
+        jm_listaS.add(jmi_Blis);
         jm_listaS.add(jmi_imprimir);
 
 
@@ -89,6 +94,7 @@ public class Main extends JFrame implements ActionListener {
         jm_listaD.add(jmi_insF);
         jm_listaD.add(jmi_borF);
         jm_listaD.add(jmi_imp);
+        jm_listaD.add(jmi_bL);
         jmb_emp.add(jm_listaS);
         jmb_emp.add(jm_listaD);
         jmb_emp.add(jm_listaC);
@@ -139,13 +145,20 @@ public class Main extends JFrame implements ActionListener {
         }
 
         if(e.getSource()== jmi_borrarP) {
-            String nombre = JOptionPane.showInputDialog("Nombre");
-            String apellido = JOptionPane.showInputDialog("Apellido");
-            Integer id = Integer.valueOf(JOptionPane.showInputDialog("ID"));
-            Empleado emp = new Empleado(nombre, apellido, id);
-            lista2.borrarNodo(emp);
-        }
 
+            Integer id = Integer.valueOf(JOptionPane.showInputDialog("ID"));
+
+            lista2.removerPorReferencia(id);
+            System.out.println("Empleado borrado");
+        }
+        if(e.getSource()== jmi_busca) {
+            Integer id = Integer.valueOf(JOptionPane.showInputDialog("ID"));
+            if(lista2.buscar(id)) {
+                System.out.println("encontrado");
+            }else {
+                System.out.println("no se encontro");
+            }
+        }
         if(e.getSource()== jmi_bus) {
             Integer id = Integer.valueOf(JOptionPane.showInputDialog("ID"));
             if(list.buscarN(id)) {
@@ -165,6 +178,16 @@ public class Main extends JFrame implements ActionListener {
             System.out.println("Empleado Agregado");
 
         }
+
+        if(e.getSource()== jmi_Blis) {
+            lista.eliminarL();
+            System.out.println("Lista Borrada");
+        }
+        if(e.getSource()== jmi_bL) {
+            list.eliminarP();
+            System.out.println("Lista Borrada");
+        }
+
         if(e.getSource()== jmi_imprimir) {
 
             System.out.println("Numero de Empleados:" + lista.getSize());
